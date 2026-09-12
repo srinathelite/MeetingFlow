@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="MeetFlow — fast, conflict-free meeting slot booking from 9:00 AM to 6:00 PM." />
+  <meta name="theme-color" content="#236a51" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MeetFlow" />
+  <title>MeetFlow — Meeting Slot Booking</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a href="#bookingWorkspace" class="skip-link">Skip to booking</a>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#home" aria-label="MeetFlow home">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span class="brand-copy"><strong>MeetFlow</strong><small>Smart scheduling</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="status-pill"><span class="pulse-dot"></span><span>Hours</span><b>9:00 AM–6:00 PM</b></div>
+        <button id="installBtn" class="ghost-btn install-btn" type="button" aria-label="Install MeetFlow app">Install app</button>
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme" title="Toggle theme"><span aria-hidden="true">☾</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home" class="shell main-content">
+    <section class="hero reveal">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>A LITTLE SPACE FOR GREAT IDEAS</div>
+        <h1>Less planning.<br /><em>More possibility.</em></h1>
+        <p>A calmer way to bring people together. Find your time, make it yours, and leave a little breathing room between meetings.</p>
+        <div class="hero-actions">
+          <button id="heroBookBtn" class="hero-primary" type="button">Book a meeting <span>↗</span></button>
+          <span class="hero-note"><i>✓</i> Your time, thoughtfully arranged</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit orbit-1"></div>
+        <div class="orbit orbit-2"></div>
+        <div class="orbit orbit-3"></div>
+        <div class="floating-chip chip-a"><span class="chip-icon">✓</span><div><strong>Conflict free</strong><small>Auto checked</small></div></div>
+        <div class="floating-chip chip-b"><span class="chip-icon">15</span><div><strong>Buffer</strong><small>minutes protected</small></div></div>
+        <div class="schedule-orb">
+          <div class="orb-glow"></div>
+          <div class="orb-ring ring-a"></div>
+          <div class="orb-ring ring-b"></div>
+          <div class="clock-core">
+            <span class="clock-tick t1"></span><span class="clock-tick t2"></span><span class="clock-tick t3"></span><span class="clock-tick t4"></span>
+            <span class="clock-hand hand-hour"></span><span class="clock-hand hand-minute"></span><span class="clock-pin"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-grid reveal" aria-label="Booking summary">
+      <article class="stat-card accent-stat"><span class="stat-top"><i>01</i><span class="mini-bars"><b></b><b></b><b></b></span></span><p>Meetings planned</p><strong id="statBookings">0</strong><small>scheduled meetings</small></article>
+      <article class="stat-card"><span class="stat-top"><i>02</i><span class="stat-symbol">◷</span></span><p>Booked time</p><strong id="statMinutes">0 min</strong><small>meeting time reserved</small></article>
+      <article class="stat-card"><span class="stat-top"><i>03</i><span class="stat-symbol">↗</span></span><p>Next available</p><strong id="statNext">9:00 AM</strong><small>fits your selected duration</small></article>
+      <article class="stat-card"><span class="stat-top"><i>04</i><span class="stat-symbol">◎</span></span><p>Availability</p><strong id="statFree">100%</strong><small>of business hours free</small></article>
+    </section>
+
+    <section class="date-bar reveal" aria-label="Schedule date">
+        <div><span class="kicker">YOUR WORKDAY, AT A GLANCE</span><h2 id="dateHeading">Your schedule</h2><p>Shared database <span aria-hidden="true">·</span> <span id="connectionStatus">Connecting…</span></p></div>
+        <div class="date-controls"><button id="previousDay" class="icon-btn" aria-label="Previous day">←</button><label class="date-input"><span>Schedule date</span><input id="bookingDate" type="date" aria-label="Schedule date" required></label><button id="nextDay" class="icon-btn" aria-label="Next day">→</button><button id="todayBtn" class="ghost-btn">Today</button></div>
+      </section>
+      <section id="bookingWorkspace" class="workspace reveal">
+      <article class="glass-panel booking-panel">
+        <div class="section-heading">
+          <div><span class="kicker">NEW BOOKING</span><h2>Reserve your slot</h2><p>Choose a duration, then pick an available start.</p></div>
+          <span class="section-number">01</span>
+        </div>
+
+        <form id="bookingForm" novalidate>
+          <div class="field">
+            <label for="name">Your name</label>
+            <div class="control"><span class="control-icon">◎</span><input aria-describedby="nameError" id="name" name="name" type="text" maxlength="60" autocomplete="name" placeholder="e.g. name " required /></div>
+            <small class="error" id="nameError"></small>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="duration">Duration</label>
+              <div class="control"><span class="control-icon">⌛</span><select id="duration" name="duration" required><option value="30">30 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select><span class="select-arrow">⌄</span></div>
+              <small class="error" id="durationError"></small>
+            </div>
+            <div class="field">
+              <label for="startTime">Start time</label>
+              <div class="control"><span class="control-icon">◷</span><select id="startTime" name="startTime" required aria-describedby="timeHint"><option value="">Choose time</option></select><span class="select-arrow">⌄</span></div>
+              <small id="timeHint" class="hint">12-hour format · Your device’s local time</small>
+              <small class="error" id="timeError"></small>
+            </div>
+          </div>
+
+          <div class="time-ribbon-wrap">
+            <div class="quick-title"><span>Available starts</span><small>AM / PM · Tap to select</small></div>
+            <div id="quickSlots" class="time-ribbon" aria-label="Popular valid start times"></div>
+          </div>
+
+          <div id="availabilityBox" class="availability-card" aria-live="polite">
+            <div class="availability-orb"><span class="availability-icon">i</span></div>
+            <div><strong>Choose a time</strong><p>Select a start time and duration to check availability.</p></div>
+          </div>
+
+          <button class="primary-btn" type="submit"><span>submits</span><span class="btn-arrow" aria-hidden="true">→</span><span class="btn-shine" aria-hidden="true"></span></button>
+          <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </article>
+
+      <article id="schedulePanel" class="glass-panel schedule-panel">
+        <div class="section-heading schedule-heading">
+          <div><span class="kicker">THE DAY AHEAD</span><h2>Your meetings</h2><p>A little structure. A lot of room to do great work.</p></div>
+          <span id="bookingCount" class="count-badge">0 bookings</span>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-box" for="searchInput"><span>⌕</span><input id="searchInput" type="search" placeholder="Search by name" /></label>
+          <button id="clearAllBtn" class="text-btn" type="button">Clear day</button>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <div class="empty-radar"><span></span><i></i><b>＋</b></div>
+          <h3 id="emptyTitle">Your day is wide open</h3>
+          <p id="emptyDescription">Good things start with a little space. Reserve your first meeting on the left.</p>
+        </div>
+        <div id="bookingList" class="booking-list" aria-live="polite"></div>
+      </article>
+    </section>
+
+    <section class="glass-panel day-panel reveal">
+      <div class="section-heading timeline-heading">
+        <div><span class="kicker">LIVE AVAILABILITY</span><h2>Day overview</h2><p>Business hours only — 9:00 AM to 6:00 PM.</p></div>
+        <div class="legend"><span><i class="legend-dot free"></i>Available</span><span><i class="legend-dot booked"></i>Booked</span><span><i class="legend-dot buffer"></i>Buffer</span></div>
+      </div>
+      <div class="timeline-scroll">
+        <div id="timelineHours" class="timeline-hours"></div>
+        <div id="timeline" class="timeline" aria-label="Day availability timeline"></div>
+      </div>
+      <div class="timeline-caption"><span>9:00 AM</span><p>15-minute buffers · Past starts cannot be booked.</p><span>6:00 PM</span></div>
+    </section>
+
+    <section class="mobile-app-card reveal">
+      <div class="app-preview">
+        <div class="phone-shell"><div class="phone-notch"></div><div class="phone-screen"><div class="phone-brand"><span class="brand-mark mini"><span></span></span>MeetFlow</div><div class="phone-hero"></div><div class="phone-line wide"></div><div class="phone-line"></div><div class="phone-cards"><i></i><i></i></div><div class="phone-button"></div></div></div>
+      </div>
+      <div class="app-copy"><span class="kicker">WEB + APP</span><h2>Install it. Use it anywhere.</h2><p>Keep your schedule one tap away. Add MeetFlow to your home screen or desktop and open it in its own app window. The app shell opens offline and reconnects to the shared schedule when internet returns.</p><div class="app-badges"><span>✓ Responsive</span><span>✓ Installable</span><span>✓ Shared database</span><span>✓ Touch friendly</span></div><button id="installBtnLarge" class="secondary-cta" type="button">Install MeetFlow</button></div>
+    </section>
+
+    <footer class="footer"><div class="footer-brand"><span class="brand-mark mini"><span></span></span><strong>MeetFlow</strong></div><p>Fast, conflict-free scheduling.</p><span>Made for a more focused day</span></footer>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="#home" class="mobile-nav-item active"><span>⌂</span><small>Home</small></a>
+    <a href="#bookingWorkspace" class="mobile-nav-item"><span>＋</span><small>Book</small></a>
+    <a href="#schedulePanel" class="mobile-nav-item"><span>▤</span><small>Meetings</small></a>
+    <button id="mobileInstall" class="mobile-nav-item" type="button"><span>⇩</span><small>Install</small></button>
+  </nav>
+
+  <dialog id="cancelDialog" class="modal"><form method="dialog" class="modal-card"><div class="modal-icon danger">!</div><h3>Cancel this booking?</h3><p id="cancelDialogText">The slot will become available again.</p><div class="modal-actions"><button value="close" class="secondary-btn">Keep booking</button><button id="confirmCancel" value="confirm" class="danger-btn">Cancel booking</button></div></form></dialog>
+  <dialog id="clearDialog" class="modal"><form method="dialog" class="modal-card"><div class="modal-icon danger">!</div><h3>Clear this day’s bookings?</h3><p>This removes bookings you created on this browser for the selected date. This action cannot be undone.</p><div class="modal-actions"><button value="close" class="secondary-btn">Go back</button><button id="confirmClear" value="confirm" class="danger-btn">Clear day</button></div></form></dialog>
+
+  <dialog id="installDialog" class="modal"><form method="dialog" class="modal-card install-guide"><span class="brand-mark"><span></span></span><h3>Your schedule. One tap away.</h3><p>Install MeetFlow from your browser:</p><ol><li><strong>iPhone / iPad</strong><br>Open in Safari → Share → Add to Home Screen.</li><li><strong>Android</strong><br>Open in Chrome → menu → Install app or Add to Home screen.</li><li><strong>Desktop</strong><br>In Chrome or Edge, use the install icon in the address bar or the browser menu.</li></ol><p>Installation requires HTTPS or localhost. Bookings stay on this device.</p><button class="secondary-btn" value="close">Got it</button></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"><span class="toast-dot"></span><span id="toastText"></span></div>
+  <script src="supabase-config.js"></script>
+  <script src="meetflow.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "MeetFlow \u2014 Meeting Slot Booking",
+  "short_name": "MeetFlow",
+  "description": "Fast, conflict-free meeting scheduling from 9:00 AM to 6:00 PM.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f5ef",
+  "theme_color": "#236a51",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "id": "./",
+  "shortcuts": [
+    {
+      "name": "Book a meeting",
+      "url": "./#bookingWorkspace"
+    },
+    {
+      "name": "Your meetings",
+      "url": "./#schedulePanel"
+    }
+  ]
+}
